@@ -1,5 +1,5 @@
 {
-	"name": "dorsataio/Squibble",
+	"name": "dorsataio/squibble",
 	"type": "framework",
 	"description": "Squibble is an easy to use PHP SQL library for accelerating development.",
 	"keywords": ["database", "PHP framework", "SQL", "PostgreSQL"],
