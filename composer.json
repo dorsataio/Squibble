@@ -1,0 +1,27 @@
+{
+	"name": "dorsataio/Squibble",
+	"type": "framework",
+	"description": "Squibble is an easy to use PHP SQL library for accelerating development.",
+	"keywords": ["database", "PHP framework", "SQL", "PostgreSQL"],
+	"homepage": "https://dorsata.io",
+	"license": "MIT",
+	"support": {
+		"issues": "https://dorsata.io",
+		"source": "https://dorsata.io"
+	},
+	"authors": [
+		{"name": "Tan Ha", "email": "tan.ha@dorsata.io"}
+	],
+	"require": {
+		"php": ">=5.4",
+		"ext-pdo": "*"
+	},
+	"suggest": {		
+		"ext-pdo_pqsql": "For PostgreSQL database",
+	},
+	"autoload": {
+		"psr-4": {
+			"Dorsataio\\Squibble\\": "/src"
+		}
+	}
+}
