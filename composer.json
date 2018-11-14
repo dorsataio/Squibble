@@ -17,7 +17,7 @@
 		"ext-pdo": "*"
 	},
 	"suggest": {		
-		"ext-pdo_pqsql": "For PostgreSQL database",
+		"ext-pdo_pqsql": "For PostgreSQL database"
 	},
 	"autoload": {
 		"psr-4": {
