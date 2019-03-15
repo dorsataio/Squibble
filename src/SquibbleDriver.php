@@ -296,9 +296,14 @@ abstract class SquibbleDriver{
 	 *
 	 * @return object returns the current squibble object.
 	 */
-	public function select($c){
+	public function select($t, $c = array()){
 		if(!is_array($c)){
 			$c = array($c);
+		}
+		if(is_array($t)){
+			$c = $t;
+		}elseif(is_string($t)){
+			$this->table($t);
 		}
 		$columns = [];
 		foreach($c as $i => $s){
@@ -323,8 +328,13 @@ abstract class SquibbleDriver{
 	 *
 	 * @return object returns the current squibble object.
 	 */
-	public function insert(array $nvp){
+	public function insert($t, $nvp = array()){
 		$nvps = $nvp;
+		if(is_array($t)){
+			$nvps = $t;
+		}elseif(is_string($t)){
+			$this->table($t);
+		}
 		if(!isset($nvps[0])){
 			$nvps = array($nvps);
 		}
@@ -348,7 +358,12 @@ abstract class SquibbleDriver{
 	 *
 	 * @return object returns the current squibble object.
 	 */
-	public function update(array $nvp){
+	public function update($t, $nvp = array()){
+		if(is_array($t)){
+			$nvp = $t;
+		}elseif(is_string($t)){
+			$this->table($t);
+		}
 		$columns = [];
 		foreach(array_keys($nvp) as $s){
 			$column = \Dorsataio\Squibble\Resource\Extract::fromColumn($s);
@@ -366,7 +381,12 @@ abstract class SquibbleDriver{
 	 *
 	 * @return object returns the current squibble object.
 	 */
-	public function delete(array $conditions = array()){
+	public function delete($t, $conditions = array()){
+		if(is_array($t)){
+			$conditions = $t;
+		}elseif(is_string($t)){
+			$this->table($t);
+		}
 		if(!empty($conditions)){
 			$this->where($conditions);
 		}
