@@ -5,7 +5,7 @@ namespace Dorsataio\Squibble\Driver;
  *
  * 
  */
-class Pgsql extends \Dorsataio\Squibble\SquibbleDriver{
+class PgSQL extends \Dorsataio\Squibble\SquibbleDriver{
 
 	protected static function getDsn($password){
 		// Default to port 5432
