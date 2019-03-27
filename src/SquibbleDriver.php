@@ -283,9 +283,15 @@ abstract class SquibbleDriver{
 				$t = $tArray[$t_alias]->queryString();
 				$t = "({$t}) AS {$this->formatWithQuote($t_alias, 'alias')}";
 			}
+			$t = (string) $t;
+			$this->_table = trim($t);
+		}else{
+			$t = \Dorsataio\Squibble\Resource\Extract::fromTable((string) $t);
+			$this->_table = trim($t['table']);
+			if(isset($t['alias']) && !empty($t['alias'])){
+				$this->_table = "{$this->_table} as {$t['alias']}";
+			}
 		}
-		$t = (string) $t;
-		$this->_table = trim($t);
 		return $this;
 	}
 

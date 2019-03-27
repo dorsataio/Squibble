@@ -28,8 +28,19 @@ class PgSQL extends \Dorsataio\Squibble\SquibbleDriver{
 			$type = null;
 		}
 		switch(strtolower($type)){
-			case 'column':
 			case 'table':
+				$s = str_replace('"', '', $s);
+				// Check for fully qualified names
+				// schema.table => schema."table"
+				if(preg_match('/(?:(\w+)\.(\w+))/', $s)){
+					$s = preg_replace('/(\w+)\.(\w+)/', '"\1"."\2"', $s);
+				}else{
+					$s = "\"{$s}\"";
+				}
+				// Check trailing alias
+				$s = preg_replace('/as (\w+)$/', 'as "\1"', $s);
+				break;
+			case 'column':
 			case 'alias':
 				$s = str_replace('"', '', $s);
 				$s = "\"{$s}\"";
@@ -263,6 +274,33 @@ class PgSQL extends \Dorsataio\Squibble\SquibbleDriver{
 			$clause .= "{$column}";
 		}
 		return "RETURNING {$clause}";
+	}
+
+	public function schemaTables(array $conditions = array()){
+		if(!empty($conditions)){
+			$this->where($conditions);
+		}
+		$this->select('information_schema.tables', '*');
+		// Return tables
+		return $this->collect();
+	}
+
+	public function primaryKeyOf($table){
+		$this->select('information_schema.table_constraints~~tc', [
+			'[kc.column_name]~~primary_key'
+		])->joining([
+			'[><]information_schema.key_column_usage~~kc' => [
+				'[tc.table_name][=]' => '[kc.table_name]',
+				'[tc.table_schema][=]' => '[kc.table_schema]',
+				'[tc.constraint_name][=]' => '[kc.constraint_name]'
+			]
+		])->where([
+			'tc.constraint_type[=]' => 'PRIMARY KEY',
+			'tc.table_name' => $table,
+			'kc.ordinal_position[!=]' => null
+		]);
+		// Return the primary key if any
+		return $this->collect();
 	}
 
 	public function count(array $conditions = array()){
