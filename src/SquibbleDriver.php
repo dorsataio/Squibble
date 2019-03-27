@@ -569,19 +569,19 @@ abstract class SquibbleDriver{
 			$column = $this->formatWithQuote($column, 'column');
 		}
 		// parent.column
-		if($params['parent']){
+		if(isset($params['parent']) && $params['parent']){
 			$column = "{$this->formatWithQuote($params['parent'], 'table')}.{$column}";
 		}
 		// parent.column::cast?
-		if($params['cast']){
+		if(isset($params['cast']) && $params['cast']){
 			$column = "{$column}::{$params['cast']}";
 		}
 		// function(%%column) ?
-		if($params['function']){
+		if(isset($params['function']) && $params['function']){
 			$column = str_replace('%%column%%', $column, $params['function']);
 		}
 		// add alias?
-		if($params['alias']){
+		if(isset($params['alias']) && $params['alias']){
 			$params['alias'] = $this->formatWithQuote($params['alias'], 'alias');
 			$column = "{$column} AS {$params['alias']}";
 		}
